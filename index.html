@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MYP 3 원의 성질 유닛 플래너</title>
+<style>
+:root{--ink:#1d2b4f;--bg:#f4f7fb;--card:#fff;--line:#c9d3e3;--teal:#0f7f82;--amber:#b86e00;--red:#b3261e}
+@media(prefers-color-scheme:dark){:root{--ink:#e6ecf8;--bg:#121a2c;--card:#1b2640;--line:#34436a;--teal:#4fd1d4;--amber:#f0b04a;--red:#ff8a80}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:20px/1.6 "Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+header{padding:18px 16px 8px;display:flex;gap:14px;align-items:center;max-width:900px;margin:auto}
+header svg{width:72px;height:72px;flex:none}
+h1{font-size:1.35rem;margin:0;line-height:1.3}h2{font-size:1.2rem;margin:0 0 10px;padding-bottom:6px;border-bottom:3px solid var(--teal)}
+main{max-width:900px;margin:auto;padding:0 12px 90px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{width:100%;padding:10px;border:2px solid var(--line);border-radius:8px;background:var(--bg)}
+textarea{min-height:84px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.chk label{display:inline-flex;gap:8px;align-items:center;font-weight:400;margin:4px 12px 4px 0}
+.chk input{width:24px;height:24px}
+button{padding:12px 16px;border-radius:8px;border:2px solid var(--teal);background:var(--teal);color:#fff;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}
+button.sub{background:transparent;color:var(--teal)}
+button.warn{border-color:var(--red);background:transparent;color:var(--red)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid var(--amber);outline-offset:2px}
+.msg{padding:8px 10px;border-left:6px solid var(--teal);margin:6px 0;background:var(--bg)}
+.msg.w{border-color:var(--amber)}.msg.e{border-color:var(--red)}
+.bar{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:8px 0;font-size:.8rem;color:#fff;font-weight:700}
+.bar div{display:flex;align-items:center;justify-content:center;white-space:nowrap}
+#out h3{margin:14px 0 4px;color:var(--teal)}#out p,#out li{margin:3px 0;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.ans{display:none;color:var(--teal);font-weight:700}body.show .ans{display:inline}
+.hid{display:none}body:not(.show) .mask{display:inline}.mask{display:none;color:var(--amber)}
+.dock{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);padding:6px 10px;display:flex;flex-wrap:wrap;justify-content:center;gap:2px;z-index:5}
+.dock button{padding:8px 12px;font-size:.9rem}
+small{opacity:.85}
+@media print{.noprint,.dock,header svg{display:none}body{font-size:12pt;background:#fff;color:#000}section{border:0}}
+</style></head><body>
+<header><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="4"/><line x1="50" y1="50" x2="92" y2="50" stroke="#0f7f82" stroke-width="4"/><line x1="22" y1="20" x2="78" y2="20" stroke="#b86e00" stroke-width="4" transform="rotate(25 50 50)"/><circle cx="50" cy="50" r="4" fill="currentColor"/></svg>
+<div><h1>MYP 3 · 원의 성질 유닛 플래너</h1><small>GRASPS · 탐구–행동–성찰 · 이 기기 안에서만 저장됩니다</small></div></header>
+<main>
+
+<section class="noprint"><h2>1. 입력</h2>
+<div class="row"><div><label for="unit">단원명</label><input id="unit" data-k="unit" value="원의 성질"></div>
+<div><label for="lessons">총 차시</label><input id="lessons" type="number" min="3" max="40" data-k="lessons" value="12"></div>
+<div><label for="author">작성자 번호 (이름 대신 번호)</label><input id="author" inputmode="numeric" data-k="author" placeholder="예: 7"></div></div>
+<div class="row"><div><label for="kc">핵심 개념</label><select id="kc" data-k="kc"><option>형태</option><option selected>관계</option><option>논리</option></select></div>
+<div><label for="gc">맥락(글로벌)</label><select id="gc" data-k="gc"><option>과학적·기술적 혁신</option><option selected>세계화와 지속가능성</option><option>공정성과 발전</option><option>정체성과 관계</option><option>시간·장소·공간에서의 방향</option></select></div>
+<div><label for="sc">GRASPS 상황 예시</label><select id="sc" data-k="sc"><option value="park">공원 원형 분수대·벤치</option><option value="wheel">자전거 바퀴와 속도</option><option value="spk">스프링클러 배치(공동체)</option></select></div></div>
+<label>관련 개념</label><div class="chk" id="rc"></div>
+<label>평가 준거 (MYP 수학)</label><div class="chk" id="cr"></div>
+<label for="soi">탐구 진술문</label><textarea id="soi" data-k="soi"></textarea>
+<label for="G">G 목표(Goal)</label><textarea id="G" data-k="G"></textarea>
+<label for="R">R 역할(Role)</label><textarea id="R" data-k="R"></textarea>
+<label for="A">A 청중(Audience)</label><textarea id="A" data-k="A"></textarea>
+<label for="S1">S 상황(Situation)</label><textarea id="S1" data-k="S1"></textarea>
+<label for="P">P 수행·산출물(Product)</label><textarea id="P" data-k="P"></textarea>
+<label for="S2">S 기준(Standards)</label><textarea id="S2" data-k="S2"></textarea>
+<label>단계별 비율 (%)</label>
+<div class="row"><div><label for="p1">탐구</label><input id="p1" type="number" data-k="p1" value="40"></div><div><label for="p2">행동</label><input id="p2" type="number" data-k="p2" value="40"></div><div><label for="p3">성찰</label><input id="p3" type="number" data-k="p3" value="20"></div></div>
+<label for="t1">탐구 활동</label><textarea id="t1" data-k="t1"></textarea>
+<label for="t2">행동 활동</label><textarea id="t2" data-k="t2"></textarea>
+<label for="t3">성찰 활동</label><textarea id="t3" data-k="t3"></textarea>
+<label for="it">수학×정보 융합 활동 (프로그래밍)</label><textarea id="it" data-k="it"></textarea>
+<button id="auto">✨ 선택한 상황으로 초안 채우기</button>
+</section>
+
+<section class="noprint"><h2>2. 처리 규칙</h2>
+<small>① 비율 합계 100 ② 차시 자동 배분 ③ 필수칸 점검 ④ 준거·활동 연결 점검 ⑤ 탐구 진술문 자동 제안</small><br>
+<button id="chk">✅ 점검하기</button><button id="soiBtn" class="sub">탐구 진술문 제안</button>
+<div id="msgs"></div>
+<h2 style="margin-top:18px">모둠 편성 (번호만 사용)</h2>
+<div class="row"><div><label for="n">학생 수</label><input id="n" type="number" min="2" max="60" value="24"></div><div><label for="gs">모둠 크기</label><input id="gs" type="number" min="2" max="8" value="4"></div></div>
+<button id="grp" class="sub">🎲 번호로 모둠 짜기</button><div id="groups"></div>
+</section>
+
+<section><h2>3. 출력</h2><div id="out"></div></section>
+
+<section class="noprint"><h2>수학×정보 미니 계산기</h2>
+<small>반지름과 현의 길이로 중심에서 현까지의 거리를 구합니다 (피타고라스). 결과는 정답 숨김 상태에서 가려집니다.</small>
+<div class="row"><div><label for="cr_r">반지름 r</label><input id="cr_r" type="number" value="13"></div><div><label for="cr_c">현의 길이 c</label><input id="cr_c" type="number" value="24"></div></div>
+<button id="calc" class="sub">계산</button> <span class="mask" id="cm">🔒 정답 숨김 중</span><span class="ans" id="cres"></span>
+</section>
+</main>
+
+<div class="dock noprint">
+<button id="save" class="sub">💾 파일 저장</button><button id="load" class="sub">📂 불러오기</button><button id="copy" class="sub">📋 복사</button><button id="print" class="sub">🖨 인쇄/PDF</button><button id="ansBtn" class="sub">🔒 정답 보기</button><button id="reset" class="warn">초기화</button>
+<input type="file" id="file" accept=".json" class="hid">
+</div>
+
+<script>
+const RC=["측정","공간","수량","모형","일반화","표현","동치"],CR={A:"A 지식과 이해",B:"B 패턴 탐구",C:"C 의사소통",D:"D 실생활 수학 적용"};
+const SC={
+park:{G:"원형 공원의 분수대와 벤치 배치를 원의 성질로 설계한다.",R:"시청 공원 설계팀의 수석 설계자",A:"시민 대표와 구청 담당자",S1:"지름 20m 원형 공원에 중심에서 같은 거리로 벤치 8개를 놓고, 현 모양 산책로를 낸다.",P:"설계도 + 길이·각도 계산 근거 + 발표 3분",S2:"반지름·현·중심각 관계를 정확히 사용(A), 규칙 발견·일반화(B), 표와 도식으로 설명(C), 현실 제약 반영(D)",t1:"원의 중심에서 현에 내린 수선은 현을 이등분하는가? 직접 작도하고 규칙 찾기. 원주각과 중심각 관계 탐구.",t2:"설계도 제작, 벤치 간격 계산, 산책로 길이 계산, 공동체(학교 정원) 적용안 제안.",t3:"가정이 현실과 어디서 달랐는가? 다른 방법은 없었나? 학습 접근 방법 성찰.",it:"Python: import math; r=13; c=24; d=math.sqrt(r**2-(c/2)**2); print(d). 반지름이 바뀔 때 d를 반복문으로 표로 출력."},
+wheel:{G:"자전거 바퀴 크기에 따른 이동 거리와 속도를 원주와 호의 길이로 예측한다.",R:"자전거 매장 데이터 분석가",A:"자전거를 사려는 학생과 학부모",S1:"바퀴 지름 20·24·26인치 자전거로 학교에서 집까지 가는 데 필요한 바퀴 회전 수를 비교한다.",P:"비교표 + 그래프 + 추천 카드",S2:"원주·호의 길이 정확(A), 지름과 원주 관계 발견(B), 그래프·표(C), 현실 상황 적용(D)",t1:"여러 원통의 지름과 둘레를 측정해 원주율 규칙을 발견.",t2:"표와 그래프를 만들고 거리별 회전 수 예측 모델을 작성.",t3:"측정 오차의 원인과 개선 방법은 무엇인가?",it:"스프레드시트나 Python 반복문으로 지름 20~28인치의 원주와 회전 수를 자동 계산."},
+spk:{G:"학교 운동장 일부에 스프링클러 분사 반경을 설계해 물 낭비를 줄인다.",R:"학교 환경 동아리 설계 담당",A:"학교 시설 담당자와 학생회",S1:"가로 12m 세로 8m 화단에 부채꼴 분사 영역이 겹치지 않도록 스프링클러를 배치한다.",P:"배치 지도 + 면적 계산 + 제안서",S2:"부채꼴 호·넓이 정확(A), 배치 규칙 일반화(B), 지도·보고서(C), 비용·환경 고려(D)",t1:"반지름과 중심각이 부채꼴 넓이에 미치는 영향 탐구.",t2:"실제 화단을 측정해 최적 배치를 계산하고 학교에 제안(공동체 프로젝트 연계).",t3:"공동체에 도움이 된 점과 개선할 점은? 수학이 실생활에 쓰인 순간은?",it:"Python으로 반지름·각도를 입력하면 넓이를 출력하는 함수를 작성하고 여러 배치안을 비교."}};
+const $=id=>document.getElementById(id),Q=s=>[...document.querySelectorAll(s)];
+const KEY="myp3_circle_planner";let D={rc:["측정","공간"],cr:["A","B","C","D"]};
+const esc=s=>String(s??"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const num=v=>parseFloat(v)||0;
+function init(){
+ $("rc").innerHTML=RC.map(r=>`<label><input type="checkbox" value="${r}">${r}</label>`).join("");
+ $("cr").innerHTML=Object.entries(CR).map(([k,v])=>`<label><input type="checkbox" value="${k}">${v}</label>`).join("");
+ try{const s=localStorage.getItem(KEY);if(s)D=JSON.parse(s)}catch(e){}
+ apply();bind();render()}
+function apply(){Q("[data-k]").forEach(e=>{if(D[e.dataset.k]!==undefined)e.value=D[e.dataset.k]});
+ Q("#rc input").forEach(e=>e.checked=(D.rc||[]).includes(e.value));Q("#cr input").forEach(e=>e.checked=(D.cr||[]).includes(e.value));
+ if(!$("soi").value&&!D.G)fill(false)}
+function read(){Q("[data-k]").forEach(e=>D[e.dataset.k]=e.value);D.rc=Q("#rc input:checked").map(e=>e.value);D.cr=Q("#cr input:checked").map(e=>e.value)}
+function save(){read();try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}render()}
+function bind(){document.addEventListener("input",e=>{if(e.target.closest("section")&&!["n","gs","cr_r","cr_c","file"].includes(e.target.id))save()});
+ $("auto").onclick=()=>{if(confirm("현재 입력한 내용이 선택한 상황의 초안으로 바뀝니다. 계속할까요?"))fill(true)};
+ $("soiBtn").onclick=()=>{read();$("soi").value=suggest();save()};
+ $("chk").onclick=check;$("grp").onclick=group;$("calc").onclick=calc;
+ $("ansBtn").onclick=()=>{const on=!document.body.classList.contains("show");
+  if(on&&!confirm("정답이 보입니다. 학생에게 화면이 공유되고 있지 않은지 확인하세요."))return;
+  document.body.classList.toggle("show",on);$("ansBtn").textContent=on?"🔓 정답 숨기기":"🔒 정답 보기"};
+ $("print").onclick=()=>window.print();
+ $("copy").onclick=()=>{const t=text();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>alert("복사했습니다."),()=>{const a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove();alert("복사했습니다.")})};
+ $("save").onclick=()=>{read();const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,1)],{type:"application/json"}));a.download="원의성질_플래너.json";a.click()};
+ $("load").onclick=()=>$("file").click();
+ $("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{D=JSON.parse(r.result);apply();save()}catch(x){alert("파일을 읽을 수 없습니다.")}};r.readAsText(f)};
+ $("reset").onclick=()=>{if(confirm("모든 입력을 지웁니다. 계속할까요?")){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}}}
+function fill(go){read();const s=SC[$("sc").value];for(const k in s)$(k).value=s[k];$("soi").value=suggest();save()}
+function suggest(){const rc=(D.rc&&D.rc.length?D.rc:["측정"]).join("·");return `${D.kc}을(를) 바탕으로 ${rc} 개념을 활용하면 원의 성질을 ${D.gc} 맥락의 실제 문제 해결에 적용할 수 있다.`}
+function alloc(){const L=Math.round(num(D.lessons)),p=[num(D.p1),num(D.p2),num(D.p3)];const a=p.map(x=>Math.floor(L*x/100));let r=L-a.reduce((x,y)=>x+y,0),i=0;while(r>0){a[i++%3]++;r--}return a}
+function check(){read();const m=[],add=(t,c)=>m.push(`<div class="msg ${c||""}">${t}</div>`);
+ const sum=num(D.p1)+num(D.p2)+num(D.p3);sum===100?add("✔ 비율 합계 100%"):add(`비율 합계가 ${sum}%입니다. 100%로 맞추세요.`,"e");
+ [["G","목표"],["R","역할"],["A","청중"],["S1","상황"],["P","산출물"],["S2","기준"],["soi","탐구 진술문"],["t1","탐구 활동"],["t2","행동 활동"],["t3","성찰 활동"]].forEach(([k,n])=>{if(!(D[k]||"").trim())add(`${n} 칸이 비어 있습니다.`,"w")});
+ if(D.author&&!/^\d{1,3}$/.test(D.author.trim()))add("작성자는 이름 대신 번호(숫자)만 입력하세요.","e");
+ (D.cr||[]).forEach(k=>{const kw={A:"정확|관계",B:"규칙|패턴|일반화|발견",C:"표|도식|그래프|지도|보고서|발표",D:"현실|실생활|공동체|제약"}[k];if(!new RegExp(kw).test(D.S2||""))add(`준거 ${k}에 맞는 평가 기준 문장이 GRASPS의 Standards에 없습니다.`,"w")});
+ if(!/Python|파이썬|스프레드시트|코드|반복문/i.test(D.it||""))add("수학×정보 융합 활동에 프로그래밍·도구 내용이 없습니다.","w");
+ if(num(D.lessons)<6)add("차시가 6 미만이면 탐구–행동–성찰을 모두 담기 어렵습니다.","w");
+ if(!m.some(x=>/msg (w|e)/.test(x)))add("✔ 모든 점검을 통과했습니다.");
+ $("msgs").innerHTML=m.join("")}
+function group(){const n=Math.max(2,Math.floor(num($("n").value))),g=Math.max(2,Math.floor(num($("gs").value)));
+ const a=[...Array(n)].map((_,i)=>i+1);for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+ const k=Math.max(1,Math.round(n/g)),G=[...Array(k)].map(()=>[]);a.forEach((x,i)=>G[i%k].push(x));
+ const roles=["수학 분석","정보(코드)","디자인·작도","발표"];
+ $("groups").innerHTML="<table>"+G.map((m,i)=>`<tr><th>${i+1}모둠</th><td>${m.sort((x,y)=>x-y).map((x,j)=>`${x}번(${roles[j%4]})`).join(", ")}</td></tr>`).join("")+"</table>";D.groups=G;save()}
+function calc(){const r=num($("cr_r").value),c=num($("cr_c").value);let t;
+ if(r<=0||c<=0)t="r와 c는 0보다 커야 합니다.";else if(c>2*r)t="현의 길이는 지름(2r)보다 클 수 없습니다.";
+ else{const d=Math.sqrt(r*r-(c/2)**2),th=2*Math.asin(c/(2*r))*180/Math.PI;t=`거리 d = ${d.toFixed(2)}, 중심각 ≈ ${th.toFixed(1)}°`}
+ $("cres").textContent=t}
+const QZ=[["반지름 5인 원의 둘레는? (π 사용)","10π"],["중심각 80°인 호에 대한 원주각은?","40°"],["접선과 접점을 지나는 반지름이 이루는 각은?","90°"],["반지름 13, 현 24일 때 중심에서 현까지 거리는?","5"]];
+function render(){const[a,b,c]=alloc(),L=Math.round(num(D.lessons));
+ const crs=(D.cr||[]).map(k=>CR[k]).join(" / ")||"-";
+ const pct=[num(D.p1),num(D.p2),num(D.p3)];
+ const bar=`<div class="bar"><div style="width:${pct[0]}%;background:#0f7f82">탐구 ${a}</div><div style="width:${pct[1]}%;background:#b86e00">행동 ${b}</div><div style="width:${pct[2]}%;background:#5b4bb7">성찰 ${c}</div></div>`;
+ const quiz="<ol>"+QZ.map(q=>`<li>${q[0]} <span class="mask">🔒</span><span class="ans">→ ${q[1]}</span></li>`).join("")+"</ol>";
+ const grp=D.groups?"<table>"+D.groups.map((m,i)=>`<tr><th>${i+1}모둠</th><td>${m.join(", ")}번</td></tr>`).join("")+"</table>":"<p>(모둠 미편성)</p>";
+ $("out").innerHTML=`<p><b>${esc(D.unit)}</b> · MYP 3 수학 · ${L}차시${D.author?" · 작성 "+esc(D.author)+"번":""}</p>
+ <h3>개념 구조</h3><p>핵심 개념: ${esc(D.kc)} / 관련 개념: ${esc((D.rc||[]).join(", "))}\n글로벌 맥락: ${esc(D.gc)}\n평가 준거: ${esc(crs)}</p><p>탐구 진술문: ${esc(D.soi)}</p>
+ <h3>GRASPS</h3><table>${[["G 목표","G"],["R 역할","R"],["A 청중","A"],["S 상황","S1"],["P 산출물","P"],["S 기준","S2"]].map(([n,k])=>`<tr><th>${n}</th><td>${esc(D[k])}</td></tr>`).join("")}</table>
+ <h3>탐구 → 행동 → 성찰 (차시 배분)</h3>${bar}
+ <table><tr><th>탐구 ${a}차시</th><td>${esc(D.t1)}</td></tr><tr><th>행동 ${b}차시</th><td>${esc(D.t2)}</td></tr><tr><th>성찰 ${c}차시</th><td>${esc(D.t3)}</td></tr></table>
+ <h3>수학×정보 융합</h3><p>${esc(D.it)}</p><h3>확인 문제</h3>${quiz}<h3>모둠 (번호)</h3>${grp}`}
+function text(){const[a,b,c]=alloc();return `[${D.unit}] MYP3 수학 ${D.lessons}차시\n핵심개념:${D.kc} 관련개념:${(D.rc||[]).join(",")} 맥락:${D.gc}\n준거:${(D.cr||[]).join(",")}\n탐구진술문:${D.soi}\n\nGRASPS\nG:${D.G}\nR:${D.R}\nA:${D.A}\nS:${D.S1}\nP:${D.P}\nS:${D.S2}\n\n탐구(${a}차시):${D.t1}\n행동(${b}차시):${D.t2}\n성찰(${c}차시):${D.t3}\n\n수학×정보:${D.it}`}
+init();
+</script></body></html>
